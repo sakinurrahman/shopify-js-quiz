@@ -1,0 +1,261 @@
+<style>
+  
+  
+  .quiz-main h1 {
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 35px;
+}
+.quiz-content .quiz-content-inner{
+  display: none; 
+  font-size: 15px;
+}
+.quiz-content .quiz-content-inner.current{
+  display: block; 
+}
+.quiz-main{
+  max-width: 50%;
+  margin: 0 auto;
+}
+@media (max-width: 1024px){
+  .quiz-main {
+    max-width: 60%; 
+  }
+}
+@media (max-width: 680px){
+  .quiz-main {
+    max-width: 80%; 
+  }
+}
+@media (max-width: 480px){
+  .quiz-main {
+    max-width: 90%; 
+  }
+}
+.quiz-content {
+  border-radius: 20px;
+  border: 2px solid;
+  padding: 20px 30px;
+}
+
+@media (max-width: 680px){
+  .quiz-content {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 480px){
+  .quiz-content {
+    padding: 20px 15px;
+  }
+}
+
+.quiz-content .quiz-content-inner p{
+ color: #000; 
+}
+.quiz-content .quiz-content-inner p.song{
+  margin-bottom: 5px;  
+}
+.quiz-content .quiz-content-inner p.hint{
+  margin-bottom: 0;  
+}
+.quiz-content .quiz-content-inner .question {
+  margin-bottom: 15px;
+}
+.quiz-content .btn-refersh.btn {
+	border-radius: 30px;
+	font-size: 14px;
+	width: 100%;
+	margin: 20px auto auto;
+	max-width: 150px;
+	display: block;
+	padding: 6px 10px;
+	background: #334FB4;
+	text-align: center;
+	text-decoration: none;
+	color: white;
+	font-weight: 500;
+}
+.how_to_play{
+  cursor: pointer; 
+  display: flex;
+  align-items: center;
+}
+.how_to_play img{
+ width: 20px; 
+}
+.how_to_play_content{
+  display: none; 
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+.how_to_play .arr-up{display:block;}
+  .how_to_play .arr-down{display:none;}
+  .how_to_play.active .arr-up{display:none;}
+  .how_to_play.active .arr-down{display:block;}
+
+@media (max-width: 767px){
+  .how_to_play img{
+    width: 15px; 
+  }
+  
+  
+  .how_to_play_content{
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+}
+.how_to_play_content p {
+    color: #000;
+    margin: 3px;
+}
+
+
+
+  
+  
+</style>
+
+<div class="page-width">
+  
+      <div class="quiz-main">
+        <div class="section-header text-center">
+          <h1>{{ section.settings.maintitle }}</h1>
+        </div>
+        
+        <h4 class="how_to_play">
+          <strong>{{ section.settings.howto }}</strong> &nbsp;&nbsp;
+          <img class="arr-up" src="//cdn.shopify.com/s/files/1/0607/4381/1253/t/8/assets/next.png?v=9303474688413006265">
+          <img class="arr-down" src="//cdn.shopify.com/s/files/1/0607/4381/1253/t/8/assets/down-arrow.png?v=2150296632961608961"> 
+        </h4>
+        <div class="how_to_play_content">
+          {{ section.settings.des }}
+        </div>
+        
+        
+        <div class="rte wrapper">
+              {% for leng in section.blocks %}
+                 {% assign answerLength = forloop.length %}
+               {% endfor %}
+          <div class="quiz-content" data-count="{{ answerLength }}">
+            
+            {% for block in section.blocks %}
+            <div id="faq{{ forloop.index }}" class="quiz-content-inner {% if forloop.index == 1 %} current {% endif %} visited" data-id="{{ forloop.index }}">
+              <div class="question">
+                <p><strong>{{ section.settings.queslabel }}</strong> {{ block.settings.question }}</p>
+              </div>
+              <div class="answer">
+                <p><strong>{{ section.settings.anslabel }}</strong> {{ block.settings.ans }}</p>
+              </div>
+            </div>
+            {% endfor %}
+            
+            
+          
+            
+            
+            <a href="#" class="btn-refersh btn">{{ section.settings.btntext }}</a>
+          </div>
+        </div>
+        
+      </div>
+  
+</div>
+
+
+
+
+{% schema %}
+  {
+    "name": "Quiz",
+    "settings": [
+
+        {
+        "type": "text",
+        "id": "maintitle",
+        "label": "Title",
+        "default": "Quiz"
+        },
+        {
+        "type": "text",
+        "id": "howto",
+        "label": "How To Play",
+        "default": "How To Play"
+        },
+       {
+        "type": "richtext",
+        "id": "des",
+        "label": "Instructions",
+        "default":"<p>1. Read the question below out loud to the other player(s).</p><p>2. The other players are allowed to discuss the answer together, however, they can only submit 1 answer to you.</p><p>3. If the group's answer is correct, you take 3 sips.</p><p>4. If the group's answer is incorrect, they all take 3 sips each.</p>"
+        },
+        {
+        "type": "text",
+        "id": "queslabel",
+        "label": "Question",
+        "default": "Question"
+        },
+        {
+        "type": "text",
+        "id": "anslabel",
+        "label": "Answer",
+        "default": "Answer"
+        },
+        {
+        "type": "text",
+        "id": "btntext",
+        "label": "Button Texts",
+        "default": "NEW CHALLENGE"
+        }
+       ],
+     "blocks": [
+          {
+          "name": "Challenge",
+           "type": "quiz",
+           "settings": [
+              {
+              "type": "text",
+              "id": "question",
+              "label": "Question",
+              "default": "What are the names of Kim & Kanye’s four children?"
+              },
+             {
+              "type": "text",
+              "id": "ans",
+              "label": "Answer",
+              "default": "North, Saint, Chicago, & Psalm"
+              }
+           ]
+
+          }
+
+     ],
+     "presets": [
+       {
+        "name": "Quiz",
+         "category": "Custom Sections"
+       }
+    ]
+  }
+{% endschema %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+
+function getRandomInt(t, e) {
+	return t = Math.ceil(t), e = Math.floor(e), Math.floor(Math.random() * (e - t) + t)
+}
+$("body").on("click", ".btn-refersh", function(t) {
+	t.preventDefault();
+	var e = parseInt($(this).parents(".quiz-content").data("count")) + 1,
+		i = getRandomInt(1, e),
+		o = "";
+	$(".quiz-content-inner").removeClass("current");
+	var s = i;
+	if ($(".quiz-content > div.visited").length == e - 1 && $(".quiz-content > div").removeClass("visited"), $("#faq" + s).hasClass("visited")) return $(".quiz-content-inner").removeClass("current"), $(".btn-refersh").trigger("click"), !1;
+	$("#faq" + s).length > 0 ? o = "#faq" + s : o = "#faq1", $(o).addClass("current").addClass("visited")
+}), $(".how_to_play").click(function() {
+	$(this).toggleClass("active"), $(".how_to_play_content").slideToggle();
+});
+   });
+</script>
